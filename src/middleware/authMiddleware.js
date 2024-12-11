@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken';
-import HttpStatusCodes from "../enums/httpStatusCodes.js";
+
 import { generateAccessToken } from '../utils/generateToken.js';
 import setToken from '../utils/setToken.js';
+
+import HttpStatusCodes from "../enums/httpStatusCodes.js";
+import ErrorMessages from '../enums/ErrorMessages.js';
 
 const authMiddleware = async(req, res, next) => {
     try {
@@ -9,7 +12,7 @@ const authMiddleware = async(req, res, next) => {
         const invoCloudRefreshToken = req.cookies.invoCloudRefreshToken;
 
         if(!invoCloudRefreshToken) {
-            return res.status(HttpStatusCodes.UNAUTHORIZED).json({ message: "Please login to view the datails!"})
+            return res.status(HttpStatusCodes.UNAUTHORIZED).json({ message: ErrorMessages.REFRESH_TOKEN_NOT_FOUND})
         }
 
         if(!invoCloudAccessToken) {
@@ -22,8 +25,7 @@ const authMiddleware = async(req, res, next) => {
 
         next()
     } catch (error) {
-        console.error("Auth Middleware Error:", error.message);
-        return res.status(HttpStatusCodes.UNAUTHORIZED).json({ message: "Authentication failed!" });
+        return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: ErrorMessages.INTERNAL_SERVER_ERROR });
     }
 }
 

@@ -6,6 +6,8 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const userRoutes = Router();
 
 userRoutes.post('/login', userController.login);
+userRoutes.post('/logout', userController.logout);
+
 userRoutes.get('/dashboard', authMiddleware, userController.getDashboard);
 
 export default userRoutes

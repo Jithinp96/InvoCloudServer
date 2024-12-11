@@ -1,14 +1,17 @@
+import ErrorMessages from "../enums/ErrorMessages.js";
 import HttpStatusCodes from "../enums/httpStatusCodes.js";
+import SuccessMessages from "../enums/successMessages.js";
+import AppError from "../utils/appError.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken.js";
 import setToken from "../utils/setToken.js";
 
 const userController = {
-    login: async (req, res) => {
+    login: async (req, res, next) => {
         const { email, password } = req.body;
         
         try {
             if(email !== process.env.USER_EMAIL || password !== process.env.USER_PASSWORD) {
-                return res.status(HttpStatusCodes.UNAUTHORIZED).json({ message: "Invalid credentials. Please try again!"})
+                return next(new AppError(HttpStatusCodes.UNAUTHORIZED, ErrorMessages.INVALID_CREDENTIALS))
             }
 
             if(email === process.env.USER_EMAIL && password === process.env.USER_PASSWORD) {
@@ -16,21 +19,25 @@ const userController = {
 
                 const accessToken = generateAccessToken(payload);
                 const refreshToken = generateRefreshToken(payload);
+
                 setToken(res, 'invoCloudAccessToken', accessToken);
                 setToken(res, 'invoCloudRefreshToken', refreshToken);
 
-                return res.status(HttpStatusCodes.OK).json({ message: "Login successfull"});
+                return res.status(HttpStatusCodes.OK).json({ message: SuccessMessages.LOGIN_SUCCESS});
             }
         } catch (error) {
-            
+            next(error)
         }
     },
     
-    logout: async (req, res) => {
+    logout: async (req, res, next) => {
         try {
-            
+            res.clearCookie('invoCloudAccessToken');
+            res.clearCookie('invoCloudRefreshToken');
+
+            res.status(HttpStatusCodes.OK).json({ message: SuccessMessages.LOGOUT_SUCCESS})
         } catch (error) {
-            
+            next(error)
         }
     },
 
