@@ -38,14 +38,6 @@ const itemController = {
         }
     },
 
-    editItem: async(req, res, next) => {
-        try {
-            
-        } catch (error) {
-            next(error)
-        }
-    },
-
     switchItemStatus: async(req, res, next) => {
         const { itemId } = req.body;
         
@@ -81,6 +73,34 @@ const itemController = {
             
         } catch (error) {
             next(error)
+        }
+    },
+
+    updateItem: async( req, res, next ) => {
+        const { currentItemId } = req.query;
+        const { name, description, quantity, price } = req.body;
+        
+        try {
+            const updatedItem = await Item.findByIdAndUpdate(
+                currentItemId,
+                {name, description, quantity, price},
+                {new: true}
+            );
+
+            if(!updatedItem) {
+                return res.status(HttpStatusCodes.NOT_FOUND).json({
+                    success: false,
+                    message: ErrorMessages.ITEM_NOT_FOUND
+                })
+            }
+
+            return res.status(HttpStatusCodes.OK).json({
+                success: true,
+                message: SuccessMessages.ITEM_EDITED,
+                data: updatedItem
+            })
+        } catch (error) {
+            next(error);
         }
     },
 
