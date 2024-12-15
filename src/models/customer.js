@@ -20,13 +20,17 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Address: {
+    address: {
         type: addressSchema,
         required: true,
     },
     mobile: {
         type: Number,
         required: true,
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
 }, {timestamps: true});
 

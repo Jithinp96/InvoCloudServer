@@ -1,6 +1,6 @@
-import HttpStatusCodes from "../enums/httpStatusCodes"
-import SuccessMessages from "../enums/successMessages"
-import Customer from "../models/customer"
+import HttpStatusCodes from "../enums/httpStatusCodes.js"
+import SuccessMessages from "../enums/successMessages.js"
+import Customer from "../models/customer.js"
 
 const customerController = {
     getCustomers: async(req, res, next) => {
@@ -18,7 +18,8 @@ const customerController = {
     },
 
     addCustomer: async(req, res, next) => {
-        const { customerDetails } = req.body
+        const customerDetails  = req.body
+        
         try {
             const newCustomer = await Customer.create(customerDetails);
 
