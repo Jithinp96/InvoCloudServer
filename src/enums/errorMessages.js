@@ -5,7 +5,10 @@ const ErrorMessages = Object.freeze({
     NOT_FOUND: (entity) => `${entity} not found!`,
 
     ITEM_ID_REQUIRED: 'Item ID is required. Please try again!',
-    ITEM_NOT_FOUND: 'Item not found or already deleted!'
+    ITEM_NOT_FOUND: 'Item not found or already deleted!',
+
+    CUSTOMER_ID_REQUIRED: 'Customer details missing. Please try again!',
+    CUSTOMER_NOT_FOUND: 'Customer not found or already deleted!',
 })
 
 export default ErrorMessages
