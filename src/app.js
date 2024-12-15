@@ -11,6 +11,8 @@ import AppError from './utils/appError.js';
 import userRoutes from './routes/userRoutes.js';
 import itemRoutes from './routes/itemRoutes.js';
 import customerRoutes from './routes/cusotmerRoutes.js';
+import saleRoutes from './routes/saleRoutes.js';
+import reportRoutes from './routes/reportRoutes.js';
 
 dotenv.config();
 connectDB();
@@ -30,6 +32,8 @@ app.use(bodyParser.json());
 app.use('/api', userRoutes);
 app.use('/api', itemRoutes);
 app.use('/api', customerRoutes);
+app.use('/api', saleRoutes);
+app.use('/api', reportRoutes);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

@@ -9,6 +9,8 @@ const ErrorMessages = Object.freeze({
 
     CUSTOMER_ID_REQUIRED: 'Customer details missing. Please try again!',
     CUSTOMER_NOT_FOUND: 'Customer not found or already deleted!',
+
+    LESS_STOCK: 'Insufficient stock for the selected item.',
 })
 
 export default ErrorMessages
