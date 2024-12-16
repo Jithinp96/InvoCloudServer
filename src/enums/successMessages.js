@@ -1,6 +1,7 @@
 const SuccessMessages = Object.freeze({
     LOGIN_SUCCESS: "Login Successfull!",
     LOGOUT_SUCCESS: "Logout Successfull!",
+    ACCESS_TOKEN_REFRESHED: "Access token refreshed",
 
     ITEM_CREATED: 'Item added successfully!',
     ITEM_FETCHED: 'Items fetched successfully!',

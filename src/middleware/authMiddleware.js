@@ -5,6 +5,7 @@ import setToken from '../utils/setToken.js';
 
 import HttpStatusCodes from "../enums/httpStatusCodes.js";
 import ErrorMessages from '../enums/ErrorMessages.js';
+import SuccessMessages from '../enums/successMessages.js';
 
 const authMiddleware = async(req, res, next) => {
     try {
@@ -20,7 +21,7 @@ const authMiddleware = async(req, res, next) => {
             const newToken = generateAccessToken(decoded.payload);
             setToken(res, 'invoCloudAccessToken', newToken);
 
-            return res.status(HttpStatusCodes.OK).json({ message: "Access token refreshed" });
+            return res.status(HttpStatusCodes.OK).json({ message: SuccessMessages.ACCESS_TOKEN_REFRESHED });
         }
 
         next()
