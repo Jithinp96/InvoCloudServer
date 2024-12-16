@@ -6,10 +6,10 @@ import Item from "../models/item.js";
 const itemController = {
     getItems: async (req, res, next) => {
         try {
-            const { name } = req.query; // Extract search query from the request
+            const { name } = req.query;
             const query = name 
-                ? { name: { $regex: name, $options: 'i' } } // Case-insensitive match
-                : {}; // Return all items if no name query is provided
+                ? { name: { $regex: name, $options: 'i' } }
+                : {};
             
             const items = await Item.find(query);
             res.status(HttpStatusCodes.OK).json({
@@ -26,6 +26,14 @@ const itemController = {
         const { name, description, quantity, price } = req.body;
         
         try {
+            const existingItem = await Item.findOne({ name: name.trim() });
+            if (existingItem) {
+                return res.status(HttpStatusCodes.CONFLICT).json({
+                    success: false,
+                    message: ErrorMessages.ITEM_NAME_EXIST,
+                });
+            }
+
             const newItem = await Item.create({
                 name,
                 description,

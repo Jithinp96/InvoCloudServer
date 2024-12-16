@@ -14,7 +14,12 @@ const SuccessMessages = Object.freeze({
     CUSTOMER_EDITED: 'Customer details edited successfully!',
     CUSTOMER_STATUS_UPDATED: 'Customer status updated successfully!',
 
-    SALE_SAVED: 'Sale recorded successfully!'
+    SALE_SAVED: 'Sale recorded successfully!',
+
+    SALES_REPORT: "Sales Report",
+    ITEM_REPORT: "Items Report",
+    REPORT_EMAIL_SENT: 'Report sent via email',
+    
 })
 
 export default SuccessMessages

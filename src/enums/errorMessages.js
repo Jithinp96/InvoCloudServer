@@ -6,11 +6,13 @@ const ErrorMessages = Object.freeze({
 
     ITEM_ID_REQUIRED: 'Item ID is required. Please try again!',
     ITEM_NOT_FOUND: 'Item not found or already deleted!',
+    ITEM_NAME_EXIST: 'An item with this name  already exists.',
 
     CUSTOMER_ID_REQUIRED: 'Customer details missing. Please try again!',
     CUSTOMER_NOT_FOUND: 'Customer not found or already deleted!',
 
     LESS_STOCK: 'Insufficient stock for the selected item.',
+    REPORT_EMAIL_FAILED: 'Failed to send email',
 })
 
 export default ErrorMessages

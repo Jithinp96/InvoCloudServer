@@ -2,6 +2,8 @@ import Sale from "../models/sales.js";
 import Item from "../models/item.js";
 import Customer from "../models/customer.js";
 import nodemailer from 'nodemailer';
+import SuccessMessages from "../enums/successMessages.js";
+import ErrorMessages from "../enums/errorMessages.js";
 
 const reportController = {
     // Sales Report
@@ -21,13 +23,15 @@ const reportController = {
                 total: sale.quantity * sale.item.price
             }));
     
-            res.status(200).json({ message: "Sales Report", report });
+            res.status(200).json({ 
+                message: SuccessMessages.SALES_REPORT, 
+                report 
+            });
         } catch (error) {
-            res.status(500).json({ message: "Error generating sales report", error });
+            next(error)
         }
     },
 
-    // Item Report
     itemReport: async (req, res, next) => {
         try {
             const items = await Item.find();
@@ -47,9 +51,9 @@ const reportController = {
                 };
             });
     
-            res.status(200).json({ message: "Items Report", report });
+            res.status(200).json({ message: SuccessMessages.ITEM_REPORT, report });
         } catch (error) {
-            res.status(500).json({ message: "Error generating items report", error });
+            next(error)
         }
     },
 
@@ -59,7 +63,7 @@ const reportController = {
             const { customerId } = req.params;
             
             const customer = await Customer.findById(customerId);
-            if (!customer) return res.status(404).json({ message: "Customer not found" });
+            if (!customer) return res.status(404).json({ message: ErrorMessages.CUSTOMER_NOT_FOUND });
             
             const transactions = await Sale.find({ customer: customerId })
                 .populate("item", "name price")
@@ -83,9 +87,7 @@ const reportController = {
                 ledger
             });
         } catch (error) {
-            console.log("Inside catch");
-            
-            res.status(500).json({ message: "Error generating customer ledger", error });
+            next(error)
         }
     },
 
@@ -116,10 +118,10 @@ const reportController = {
     
             await transporter.sendMail(message);
     
-            res.status(200).json({ success: true, message: 'Report sent via email' });
+            res.status(200).json({ success: true, message: SuccessMessages.REPORT_EMAIL_SENT });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ success: false, message: 'Failed to send email' });
+            res.status(500).json({ success: false, message: ErrorMessages.REPORT_EMAIL_FAILED });
         }
     }
 }
