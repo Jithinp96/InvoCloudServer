@@ -4,16 +4,21 @@ import SuccessMessages from "../enums/successMessages.js";
 import Item from "../models/item.js";
 
 const itemController = {
-    getItems: async(req, res, next) => {
+    getItems: async (req, res, next) => {
         try {
-            const items = await Item.find()
+            const { name } = req.query; // Extract search query from the request
+            const query = name 
+                ? { name: { $regex: name, $options: 'i' } } // Case-insensitive match
+                : {}; // Return all items if no name query is provided
+            
+            const items = await Item.find(query);
             res.status(HttpStatusCodes.OK).json({
                 success: true,
                 message: SuccessMessages.ITEM_FETCHED,
-                items: items
-            })
+                items: items,
+            });
         } catch (error) {
-            next(error)
+            next(error);
         }
     },
 
